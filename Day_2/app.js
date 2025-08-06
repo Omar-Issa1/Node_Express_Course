@@ -1,5 +1,13 @@
-const _ = require("lodash");
+const { readFile } = require("fs");
 
-const nums = [1, [2, [3, [4, [5, [6]]]]]];
-const flatarr = _.flattenDeep(nums);
-console.log(flatarr);
+const getText = (path) => {
+  return new Promise((resolve, reject) => {
+    readFile(path, "utf8", (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};

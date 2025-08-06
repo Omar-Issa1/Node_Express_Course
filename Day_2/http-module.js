@@ -10,8 +10,11 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  res.end(`<h1>404</h1>
-    <p>wtf are you doing</p>
-    <a href="/">Back Home</a>`);
+  res.writeHead(302, {
+    Location: "https://www.youtube.com/watch?v=FfxlWKiNOfU",
+  });
+  res.end();
 });
-server.listen(8000);
+server.listen(8000, () => {
+  console.log("server port is: 8000");
+});
