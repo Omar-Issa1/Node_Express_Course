@@ -1,0 +1,14 @@
+{
+  "name": "day_3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "creat_big_file.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
