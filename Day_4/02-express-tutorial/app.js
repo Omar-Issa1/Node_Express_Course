@@ -1,46 +1,26 @@
+// always rememper to put a return before any (res.)respone
 import express from "express";
-import { products, people } from "./data.js";
+import logger from "./loggerMiddleware.js";
+import authorize from "./authorize.js";
 const app = express();
+app.use([logger, authorize]);
+// app.use(express.static("./public"));
 app.get("/", (req, res) => {
-  res.send("<h1> Home page </h1> <a href= '/api/products'>products</a>");
+  return res.send("Home");
 });
-//  focus what "map" doing here
-app.get("/api/products", (req, res) => {
-  const newProducts = products.map((product) => {
-    const { id, name, image } = product;
-    return { id, name, image };
-  });
-  res.json(newProducts);
+
+app.get("/about", (req, res) => {
+  return res.send("About");
 });
-// this is Route Params
-// reveiw it again
-app.get("/api/products/:ID", (req, res) => {
-  const { ID } = req.params;
-  const oneProduct = products.find((product) => product.id === Number(ID));
-  if (!oneProduct) {
-    return res.status(404).send("Product is not found");
-  }
-  res.json(oneProduct);
+
+app.get("/api/books", (req, res) => {
+  return res.send("we have books here");
 });
-// this is query this importent you need to look at it again........
-app.get("/api/v1/query", (req, res) => {
-  const { search, limit } = req.query;
-  let sotrtedProd = [...products];
-  if (search) {
-    sotrtedProd = sotrtedProd.filter((product) => {
-      return product.name.startsWith(search);
-    });
-  }
-  if (limit) {
-    sotrtedProd = sotrtedProd.slice(0, Number(limit));
-  }
-  if (sotrtedProd.length < 1) {
-    // res.status(200).send("no products matched your search");
-    return res.status(200).json({ success: true, data: [] });
-  }
-  res.status(200).json(sotrtedProd);
+
+app.get("/api/videos", (req, res) => {
+  console.log(req.user);
+  return res.send("we have videos here");
 });
-//................query................................................
 app.listen(5000, () => {
   console.log("server is online on port 5000");
 });
