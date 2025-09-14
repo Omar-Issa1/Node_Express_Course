@@ -1,26 +1,21 @@
-// always rememper to put a return before any (res.)respone
-import express from "express";
-import logger from "./loggerMiddleware.js";
-import authorize from "./authorize.js";
-const app = express();
-app.use([logger, authorize]);
-// app.use(express.static("./public"));
-app.get("/", (req, res) => {
-  return res.send("Home");
-});
+// always remember to put a return before any (res.) response
+import express from "express"; // import express framework
+const app = express(); // create an express app
+import people from "./routes/people.js";
+import auth from "./routes/auth.js";
+// serve static files from "methods-public" folder (e.g. html, css, js)
+app.use(express.static("./methods-public"));
 
-app.get("/about", (req, res) => {
-  return res.send("About");
-});
+// parse form data (from HTML form submissions)
+app.use(express.urlencoded({ extended: false }));
 
-app.get("/api/books", (req, res) => {
-  return res.send("we have books here");
-});
+// parse JSON data (from API clients like Postman / axios)
+app.use(express.json());
 
-app.get("/api/videos", (req, res) => {
-  console.log(req.user);
-  return res.send("we have videos here");
-});
+app.use("/api/people", people);
+app.use("/login", auth);
+
+// start the server on port 5000
 app.listen(5000, () => {
   console.log("server is online on port 5000");
 });
